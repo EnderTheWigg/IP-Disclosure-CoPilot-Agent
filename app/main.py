@@ -1,6 +1,11 @@
 from fastapi import FastAPI, HTTPException, status
 from schemas import DisclosureAudit, InventionInput
 from services.evaluator import evaluate_disclosure
+import chromadb
+
+chroma_client = chromadb.PersistentClient(path="./chroma_db")
+
+patent_collection = chroma_client.get_or_create_collection(name="prior_art_patents")
 
 app = FastAPI(
     title="Enterprise IP Disclosure Copilot API",

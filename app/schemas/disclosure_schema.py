@@ -1,6 +1,6 @@
 from typing import List
-from pydantic import BaseModel, Field
-
+from pydantic import BaseModel, Field, ConfigDict
+from pydantic.alias_generators import to_camel
 
 class InventionInput(BaseModel):
     """
@@ -51,6 +51,10 @@ class DisclosureAudit(BaseModel):
     Structured output returned by the local Ollama LLM via Instructor.
     Evaluates technical clarity, completeness, and patent committee readiness.
     """
+    model_config = ConfigDict(
+        alias_generator=to_camel,
+        populate_by_name=True  # Allows both snake_case and camelCase
+    )
 
     overall_patent_readiness_score: int = Field(
         ...,
@@ -73,4 +77,8 @@ class DisclosureAudit(BaseModel):
     suggested_refinements: List[str] = Field(
         default_factory=list,
         description="Actionable, step-by-step suggestions for the engineer to improve the draft",
+    )
+    novelty_flag: str = Field(
+        ...,
+        description="Use if there is a high similarity to existing art, otherwise return 'None'. If high similarity exists, return the name, id and inventors of the patent it is similar to, as well as the exact reason you believe they are similar",
     )

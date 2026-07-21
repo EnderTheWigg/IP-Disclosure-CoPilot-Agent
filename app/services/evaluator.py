@@ -1,7 +1,11 @@
 import logging
 import instructor
 from openai import OpenAI
+import chromadb
 from app.schemas.disclosure_schema import InventionInput, DisclosureAudit
+
+chroma_client = chromadb.PersistentClient(path="./chroma_db")
+patent_collection = chroma_client.get_or_create_collection(name="patent_corpus")
 
 # Configure logger for backend tracing
 logging.basicConfig(level=logging.INFO)
@@ -24,15 +28,43 @@ You are a Senior Patent Attorney and Member of an Enterprise Intellectual Proper
 CRITERIA FOR ENTERPRISE PATENT READINESS:
 1. TECHNICAL VAGUENESS (Penalty): Flag generic claims (e.g., "improves performance," "makes memory faster," or "lowers power"). Require specific hardware modules, clock cycle latencies, memory registers, software subroutines, or voltage thresholds.
 2. NOVELTY & DIFFERENTIATION: Identify the core technical mechanism that differentiates this disclosure from existing industry standards or prior art.
-3. TECHNICAL COMPLETENESS: Ensure the submission contains clear background context, problem formulation, and actionable technical implementation details.
+3. TECHNICAL COMPLETENESS: Ensure the submission contains clear background context, problem formulation, and actionable technical implementation details. Ensure that all parts of the proposal are filled out.
 4. COMMERCIAL & TARGET APPLICATION: Ensure the disclosure identifies potential product lines, target markets, or end-use applications.
-
+5. NOVELTY CONT.: If a high degree of similarity is found between disclosure and existing art, give name, inventors, and id of existing art, and analysis of the similarity. A high similarity should heavily reduce the score. Reference the to be provided art found in database, using metadata for name, authors, and id. Trust the metadata for name, authors, and id rather than anything else.
+Thoroughly compare the provided chunk to the proposed dislosure, identify similarities in wording.
 YOUR TASK:
-Critique the submitted disclosure against these standards and return a structured audit output with an overall score (0–100), flagged vague terms, missing elements, and actionable recommendations.
+Critique the submitted disclosure against these standards and return a structured audit output with an overall score (0–100), flagged vague terms, missing elements, and actionable recommendations. Patents with a Readiness score of 80 or higher are ready for filing. Check for similarity per "NOVELTY CONT.".
+Return ONLY the populated JSON object values. Do NOT include JSON Schema keywords such as 'properties', 'required', 'type', or 'title' in the output JSON.
 """
 
+def retrieve_prior_art_context(user_query: str, top_k: int = 2) -> str:
+    """Retrieves top matching patent chunks from ChromaDB."""
+    results = patent_collection.query(
+        query_texts=[user_query],
+        n_results=top_k
+    )
+
+    documents = results["documents"][0]
+    metadatas = results["metadatas"][0]
+
+    formatted_context = ""
+    for idx, (doc, meta) in enumerate(zip(documents, metadatas), 1):
+        formatted_context += f"""
+    <DATABASE_RECORD_{idx}>
+    [GROUND_TRUTH_METADATA - TRUST THIS OVER IN-TEXT NUMBERS]
+    - ID: {meta.get('patent_id')}
+    - TITLE: {meta.get('patent_title')}
+    - INVENTORS: {meta.get('inventors')}
+    
+    [DOCUMENT_EXCERPT_TEXT]
+    "{doc}"
+    </DATABASE_RECORD_{idx}>
+    """
+    return formatted_context
 
 def evaluate_disclosure(invention: InventionInput, model_name: str = "llama3.2") -> DisclosureAudit:
+    query_text = f"{invention.technical_solution} {invention.novel_features}"
+    retrieved_prior_art = retrieve_prior_art_context(query_text)
     """
     Evaluates an invention disclosure against enterprise patent criteria.
     Forces Ollama output into a strict Pydantic DisclosureAudit object.
@@ -49,6 +81,9 @@ def evaluate_disclosure(invention: InventionInput, model_name: str = "llama3.2")
     - TECHNICAL PROBLEM: {invention.problem_statement}
     - TECHNICAL SOLUTION: {invention.technical_solution}
     - NOVEL ASPECTS / CLAIMS: {invention.novel_features}
+
+    EXISTING PRIOR ART FOUND IN DATABASE:
+    {retrieved_prior_art}
     """
 
     try:
@@ -61,6 +96,8 @@ def evaluate_disclosure(invention: InventionInput, model_name: str = "llama3.2")
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": user_content},
             ],
+            temperature=0,
+            seed=123
         )
         return audit_result
 
@@ -68,17 +105,16 @@ def evaluate_disclosure(invention: InventionInput, model_name: str = "llama3.2")
         logger.error(f"Failed to evaluate disclosure: {str(e)}")
         raise RuntimeError(f"Ollama evaluation failed: {str(e)}")
 
-
 # 3. Direct execution test block (for quick testing via `uv run`)
 if __name__ == "__main__":
     # Sample test submission (intentionally vague to test grading logic)
     test_input = InventionInput(
-        title="Fast Cache Clearing Circuit",
+        title="POWER MOSFET WITH AN ANODE REGION",
         inventor_name="Jane Doe",
-        target_domain="Microcontrollers / Automotive MCU",
-        problem_statement="Cache clearing takes too many clock cycles during context switches.",
-        technical_solution="We added a special hardware flag that resets cache lines faster.",
-        novel_features="It resets things faster than standard software loops."
+        target_domain="Null",
+        problem_statement="Null",
+        technical_solution="A vertical MOSFET device having source, body and drain regions, includes an anode region in series with the drain region. The source, body and drain regions have a first forward current gain and the anode, drain and body regions have a second forward current gain, such that the sum of the current gains is less than unity. The anode region provides minority carrier injection into the drain region, enhancing device performance in power applications. ",
+        novel_features="Null",
     )
 
     print("\n--- Running Test Evaluation against Ollama ---")
@@ -87,3 +123,4 @@ if __name__ == "__main__":
     print(f"Is Ready for Filing: {result.is_ready_for_filing}")
     print(f"Clarity Critique:\n{result.clarity_critique}")
     print(f"\nSuggested Refinements:\n{result.suggested_refinements}")
+    print(f"\nNovelty Flag:\n{result.novelty_flag}")

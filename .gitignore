@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+#chroma
+chroma_db/
+*.sqlite3
+
+# Ignore all PDF files in the patents directory
+app/data/pdf_patents/*.pdf
