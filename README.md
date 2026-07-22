@@ -178,7 +178,6 @@ pytest test_main.py -v
 ## Troubleshooting
 Power Automate flow fails with "Null" error on join():
 This happens if the JSON structure is misaligned. Ensure your Power Automate Parse JSON step is targeting body('Parse_JSON')?[0] if the payload root is an array.
-
 FastAPI returns 422 Unprocessable Entity:
 The payload sent from Power Automate does not match the Pydantic schema. Check the HTTP POST body in the Power Automate run history.
 
