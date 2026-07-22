@@ -13,11 +13,6 @@ class InventionInput(BaseModel):
         description="Title of the invention disclosure",
         examples=["Dynamic Cache Eviction Unit for Automotive MCUs"],
     )
-    inventor_name: str = Field(
-        ...,
-        description="Name or ID of the lead inventor",
-        examples=["Jane Doe"],
-    )
     target_domain: str = Field(
         ...,
         description="Target business line, product family, or engineering domain",

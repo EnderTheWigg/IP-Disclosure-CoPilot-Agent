@@ -1,6 +1,8 @@
-from fastapi import FastAPI, HTTPException, status
-from schemas import DisclosureAudit, InventionInput
-from services.evaluator import evaluate_disclosure
+from fastapi import FastAPI, HTTPException, status, Request
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from app.schemas.disclosure_schema import DisclosureAudit, InventionInput
+from app.services.evaluator import evaluate
 import chromadb
 
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
@@ -19,7 +21,7 @@ def health_check():
     return {"status": "online", "engine": "Ollama / Llama 3.2"}
 
 @app.post(
-    "/evaluate-dislosure",
+    "/evaluate-disclosure",
     response_model=DisclosureAudit,
     status_code=200
     )
@@ -29,7 +31,7 @@ def evaluate_disclosure(user_in: InventionInput):
     runs local LLM quality audit, and returns structured feedback.
     """
     try:
-        audit_report = evaluate_disclosure(user_in)
+        audit_report = evaluate(user_in)
         return audit_report
     
     except Exception as e:
@@ -37,3 +39,11 @@ def evaluate_disclosure(user_in: InventionInput):
             status_code=500,
             detail=f"An error occurred during evaluation: {str(e)}"
         )
+    
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    print("VALIDATION ERROR DETAILS:", exc.errors())
+    return JSONResponse(
+        status_code=422,
+        content={"detail": exc.errors()},
+    )

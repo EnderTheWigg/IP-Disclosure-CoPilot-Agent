@@ -62,7 +62,7 @@ def retrieve_prior_art_context(user_query: str, top_k: int = 2) -> str:
     """
     return formatted_context
 
-def evaluate_disclosure(invention: InventionInput, model_name: str = "llama3.2") -> DisclosureAudit:
+def evaluate(invention: InventionInput, model_name: str = "llama3.2") -> DisclosureAudit:
     query_text = f"{invention.technical_solution} {invention.novel_features}"
     retrieved_prior_art = retrieve_prior_art_context(query_text)
     """
@@ -77,7 +77,6 @@ def evaluate_disclosure(invention: InventionInput, model_name: str = "llama3.2")
 
     - TITLE: {invention.title}
     - TARGET DOMAIN / PRODUCT: {invention.target_domain}
-    - INVENTOR NAME: {invention.inventor_name}
     - TECHNICAL PROBLEM: {invention.problem_statement}
     - TECHNICAL SOLUTION: {invention.technical_solution}
     - NOVEL ASPECTS / CLAIMS: {invention.novel_features}
@@ -110,7 +109,6 @@ if __name__ == "__main__":
     # Sample test submission (intentionally vague to test grading logic)
     test_input = InventionInput(
         title="POWER MOSFET WITH AN ANODE REGION",
-        inventor_name="Jane Doe",
         target_domain="Null",
         problem_statement="Null",
         technical_solution="A vertical MOSFET device having source, body and drain regions, includes an anode region in series with the drain region. The source, body and drain regions have a first forward current gain and the anode, drain and body regions have a second forward current gain, such that the sum of the current gains is less than unity. The anode region provides minority carrier injection into the drain region, enhancing device performance in power applications. ",
