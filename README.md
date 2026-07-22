@@ -112,19 +112,19 @@ Note: Copy the https://<your-id>.ngrok.app URL. You will need this for Power Aut
 
 To interact with the bot, you need to import the provided Power Platform solution into your Microsoft environment.
 
-Navigate to make.powerapps.com.
+- Navigate to make.powerapps.com.
 
-Go to Solutions -> Import Solution.
+- Go to Solutions -> Import Solution.
 
-Upload the AI_Patent_Evaluator_Solution.zip located in the /power_platform directory of this repo.
+- Upload the AI_Patent_Evaluator_Solution.zip located in the /power_platform directory of this repo.
 
-Once imported, open the Power Automate Flow included in the solution.
+- Once imported, open the Power Automate Flow included in the solution.
 
-Edit the HTTP Action and replace the existing URL with your new Ngrok URL (e.g., https://<your-id>.ngrok.app/evaluate-disclosure).
+- Edit the HTTP Action and replace the existing URL with your new Ngrok URL (e.g., https://<your-id>.ngrok.app/evaluate-disclosure).
 
-Save and turn on the flow.
+- Save and turn on the flow.
 
-Open Copilot Studio, publish your bot, and test it in the Teams channel.
+Open Copilot Studio, publish your bot, and test it in the Teams channel, or use the tester bundled with the agent and the power automate flow.
 
 ---
 
