@@ -182,4 +182,4 @@ FastAPI returns 422 Unprocessable Entity:
 The payload sent from Power Automate does not match the Pydantic schema. Check the HTTP POST body in the Power Automate run history.
 
 Timeout Errors in Power Automate:
-Local LLM inference can take 10-30 seconds depending on your hardware. Power Automate HTTP actions time out after 2 minutes. Ensure you are using a suitably small model (like llama3 or phi3) for timely responses.
+Local LLM inference can take 10-30 seconds depending on your hardware. Power Automate HTTP actions time out after 2 minutes. Ensure you are using a suitably small model (like llama3 or phi3) for timely responses. Using multiple shots on models can also raise the time taken per response.
