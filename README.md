@@ -7,14 +7,14 @@ This project bridges local LLM inference (via Ollama) with Microsoft's cloud eco
 ---
 
 ## Table of Contents
-1. [Features](#-features)
-2. [System Architecture](#-system-architecture)
-3. [Prerequisites](#-prerequisites)
-4. [Local Environment Setup (Backend)](#-local-environment-setup-backend)
-5. [Microsoft Cloud Setup (Power Platform)](#-microsoft-cloud-setup-power-platform)
-6. [API Documentation](#-api-documentation)
-7. [Testing](#-testing)
-8. [Troubleshooting](#-troubleshooting)
+1. [Features](#features)
+2. [System Architecture](#system-architecture)
+3. [Prerequisites](#prerequisites)
+4. [Local Environment Setup (Backend)](#local-environment-setup-backend)
+5. [Microsoft Cloud Setup (Power Platform)](#microsoft-cloud-setup-power-platform)
+6. [API Documentation](#api-documentation)
+7. [Testing](#testing)
+8. [Troubleshooting](#troubleshooting)
 
 ---
 
