@@ -86,8 +86,8 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 ```bash
 uv sync
-Pull the LLM model:
 ```
+
 4. Make sure Ollama is running, then download the model:
 
 ```bash
