@@ -86,8 +86,8 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 ```bash
 uv sync
-Pull the LLM model:
 ```
+
 4. Make sure Ollama is running, then download the model:
 
 ```bash
@@ -112,19 +112,19 @@ Note: Copy the https://<your-id>.ngrok.app URL. You will need this for Power Aut
 
 To interact with the bot, you need to import the provided Power Platform solution into your Microsoft environment.
 
-Navigate to make.powerapps.com.
+- Navigate to make.powerapps.com.
 
-Go to Solutions -> Import Solution.
+- Go to Solutions -> Import Solution.
 
-Upload the AI_Patent_Evaluator_Solution.zip located in the /power_platform directory of this repo.
+- Upload the AI_Patent_Evaluator_Solution.zip located in the /power_platform directory of this repo.
 
-Once imported, open the Power Automate Flow included in the solution.
+- Once imported, open the Power Automate Flow included in the solution.
 
-Edit the HTTP Action and replace the existing URL with your new Ngrok URL (e.g., https://<your-id>.ngrok.app/evaluate-disclosure).
+- Edit the HTTP Action and replace the existing URL with your new Ngrok URL (e.g., https://<your-id>.ngrok.app/evaluate-disclosure).
 
-Save and turn on the flow.
+- Save and turn on the flow.
 
-Open Copilot Studio, publish your bot, and test it in the Teams channel.
+Open Copilot Studio, publish your bot, and test it in the Teams channel, or use the tester bundled with the agent and the power automate flow.
 
 ---
 
@@ -178,9 +178,8 @@ pytest test_main.py -v
 ## Troubleshooting
 Power Automate flow fails with "Null" error on join():
 This happens if the JSON structure is misaligned. Ensure your Power Automate Parse JSON step is targeting body('Parse_JSON')?[0] if the payload root is an array.
-
 FastAPI returns 422 Unprocessable Entity:
 The payload sent from Power Automate does not match the Pydantic schema. Check the HTTP POST body in the Power Automate run history.
 
 Timeout Errors in Power Automate:
-Local LLM inference can take 10-30 seconds depending on your hardware. Power Automate HTTP actions time out after 2 minutes. Ensure you are using a suitably small model (like llama3 or phi3) for timely responses.
+Local LLM inference can take 10-30 seconds depending on your hardware. Power Automate HTTP actions time out after 2 minutes. Ensure you are using a suitably small model (like llama3 or phi3) for timely responses. Using multiple shots on models can also raise the time taken per response.
