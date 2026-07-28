@@ -4,7 +4,7 @@ An automated, agentic AI pipeline that evaluates engineering patent disclosures 
 
 This project bridges local LLM inference (via Ollama) with Microsoft's cloud ecosystem (Copilot Studio & Power Automate), translating raw engineering ideas into structured, patent-ready documentation. It is designed to act as **infrastructure for innovation at scale**, fundamentally improving how engineers articulate inventions.
 
-[Topics - IP Review Assistant _ Microsoft Copilot Studio.webm](https://github.com/user-attachments/assets/651acb84-201a-4d12-8c93-c5b08ab44ad6)<img width="277" height="323" alt="image" src="https://github.com/user-attachments/assets/101247bb-fe3a-4061-8f15-c0ebb39cdfb4" />
+(https://github.com/user-attachments/assets/651acb84-201a-4d12-8c93-c5b08ab44ad6)<img width="277" height="323" alt="image" src="https://github.com/user-attachments/assets/101247bb-fe3a-4061-8f15-c0ebb39cdfb4" />
 <img width="509" height="373" alt="image" src="https://github.com/user-attachments/assets/6ff7df31-a040-4064-af68-6cce731c4723" />
 [Reelia-recording-2026-07-27.webm](https://github.com/user-attachments/assets/343ebbb4-191d-4f02-9c9e-0272ba55a3aa)
 
