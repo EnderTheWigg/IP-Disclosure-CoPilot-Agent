@@ -1,15 +1,32 @@
+<div align="center">
+
 # AI Patent Disclosure Evaluator
 
-An automated, agentic AI pipeline that evaluates engineering patent disclosures for technical clarity, novelty, and filing readiness. 
+**An automated, agentic AI pipeline that evaluates engineering patent disclosures for technical clarity, novelty, and filing readiness.**
 
-This project bridges local LLM inference (via Ollama) with Microsoft's cloud ecosystem (Copilot Studio & Power Automate), translating raw engineering ideas into structured, patent-ready documentation. It is designed to act as **infrastructure for innovation at scale**, fundamentally improving how engineers articulate inventions.
+</div>
 
-<img width="277" height="323" alt="image" src="https://github.com/user-attachments/assets/101247bb-fe3a-4061-8f15-c0ebb39cdfb4" />
-<img width="509" height="373" alt="image" src="https://github.com/user-attachments/assets/6ff7df31-a040-4064-af68-6cce731c4723" />
-<p align="center" width="100%">
-<video src="https://github.com/user-attachments/assets/fb32e41f-2e53-4495-8d91-56ad91f90b6c" width="80%" controls></video>
-</p>
+This project bridges local LLM inference (via **Ollama**) with Microsoft's cloud ecosystem (**Copilot Studio** & **Power Automate**), translating raw engineering ideas into structured, patent-ready documentation. 
 
+It is designed to act as **infrastructure for innovation at scale**, fundamentally improving how engineers articulate and validate their inventions.
+
+---
+
+### System in Action
+
+<div align="center">
+
+<img width="650" alt="Patent Disclosure Copilot Interface" src="https://github.com/user-attachments/assets/6ff7df31-a040-4064-af68-6cce731c4723" />
+<br>
+<em>Power Automate Flow</em>
+
+<br><br>
+
+<video src="https://github.com/user-attachments/assets/636b26d6-23a7-48e1-b8f0-1746fc9348aa" width="80%" controls></video>
+<br>
+<em>End-to-end pipeline demonstration</em>
+
+</div>
 
 ---
 
