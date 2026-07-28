@@ -199,11 +199,7 @@ pytest test_main.py -v
 
 ---
 
-## Troubleshooting
-Power Automate flow fails with "Null" error on join():
-This happens if the JSON structure is misaligned. Ensure your Power Automate Parse JSON step is targeting body('Parse_JSON')?[0] if the payload root is an array.
-FastAPI returns 422 Unprocessable Entity:
-The payload sent from Power Automate does not match the Pydantic schema. Check the HTTP POST body in the Power Automate run history.
-
+## Notes
+Ollama can take varying times based on your hardware. Demo was done on a Intel I9 (I have not yet managed to determine how to force Ollama to use my GPU).
 Timeout Errors in Power Automate:
 Local LLM inference can take 10-30 seconds depending on your hardware. Power Automate HTTP actions time out after 2 minutes. Ensure you are using a suitably small model (like llama3 or phi3) for timely responses. Using multiple shots on models can also raise the time taken per response.
