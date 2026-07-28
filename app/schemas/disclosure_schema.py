@@ -1,5 +1,5 @@
-from typing import List
-from pydantic import BaseModel, Field, ConfigDict
+from typing import List, Optional
+from pydantic import BaseModel, Field, ConfigDict, AliasChoices
 from pydantic.alias_generators import to_camel
 
 class InventionInput(BaseModel):
@@ -40,6 +40,15 @@ class InventionInput(BaseModel):
         ],
     )
 
+class NoveltyAnalysis(BaseModel):
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    
+    # Using Optional[str] because the LLM sometimes returns 'null' for these
+    name: Optional[str] = None
+    inventors: Optional[str] = None
+    id: Optional[str] = None
+    analysis: Optional[str] = None
+    reason: Optional[str] = None
 
 class DisclosureAudit(BaseModel):
     """
@@ -51,6 +60,10 @@ class DisclosureAudit(BaseModel):
         populate_by_name=True  # Allows both snake_case and camelCase
     )
 
+    novelty_flag: NoveltyAnalysis = Field(
+        validation_alias=AliasChoices('noveltyFlag', 'novetyFlag', 'novelty_flag')
+    )
+    
     overall_patent_readiness_score: int = Field(
         ...,
         ge=0,

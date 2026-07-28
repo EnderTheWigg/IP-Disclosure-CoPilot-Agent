@@ -25,6 +25,8 @@ client = instructor.from_openai(
 SYSTEM_PROMPT = """
 You are a Senior Patent Attorney and Member of an Enterprise Intellectual Property (IP) Review Committee evaluating invention disclosures in hardware, semiconductor, and embedded software domains.
 
+CRITICAL: Return ONLY the populated JSON object values. Do NOT include JSON Schema keywords such as 'properties', 'required', 'type', or 'title' in the output JSON.
+
 CRITERIA FOR ENTERPRISE PATENT READINESS:
 1. TECHNICAL VAGUENESS (Penalty): Flag generic claims (e.g., "improves performance," "makes memory faster," or "lowers power"). Require specific hardware modules, clock cycle latencies, memory registers, software subroutines, or voltage thresholds.
 2. NOVELTY & DIFFERENTIATION: Identify the core technical mechanism that differentiates this disclosure from existing industry standards or prior art.
@@ -34,7 +36,8 @@ CRITERIA FOR ENTERPRISE PATENT READINESS:
 Thoroughly compare the provided chunk to the proposed dislosure, identify similarities in wording.
 YOUR TASK:
 Critique the submitted disclosure against these standards and return a structured audit output with an overall score (0–100), flagged vague terms, missing elements, and actionable recommendations. Patents with a Readiness score of 80 or higher are ready for filing. Check for similarity per "NOVELTY CONT.".
-Return ONLY the populated JSON object values. Do NOT include JSON Schema keywords such as 'properties', 'required', 'type', or 'title' in the output JSON.
+
+CRITICAL: Return ONLY the populated JSON object values. Do NOT include JSON Schema keywords such as 'properties', 'required', 'type', or 'title' in the output JSON.
 """
 
 def retrieve_prior_art_context(user_query: str, top_k: int = 2) -> str:
@@ -96,7 +99,7 @@ def evaluate(invention: InventionInput, model_name: str = "llama3.2") -> Disclos
                 {"role": "user", "content": user_content},
             ],
             temperature=0,
-            seed=123
+            seed=123,
         )
         return audit_result
 
