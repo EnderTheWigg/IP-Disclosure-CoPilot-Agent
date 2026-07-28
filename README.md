@@ -6,7 +6,7 @@ This project bridges local LLM inference (via Ollama) with Microsoft's cloud eco
 
 <img width="277" height="323" alt="image" src="https://github.com/user-attachments/assets/101247bb-fe3a-4061-8f15-c0ebb39cdfb4" />
 <img width="509" height="373" alt="image" src="https://github.com/user-attachments/assets/6ff7df31-a040-4064-af68-6cce731c4723" />
-[Reelia-recording-2026-07-27.webm](https://github.com/user-attachments/assets/e488f765-52f2-4886-a311-d22bd68cbaf7)
+[Full test video](https://github.com/user-attachments/assets/e488f765-52f2-4886-a311-d22bd68cbaf7)
 
 
 ---
